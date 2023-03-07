@@ -1,5 +1,11 @@
 <body>
   <div style="position: relative;">
+    <!-- 
+      layer1: image
+      layer2: horizontal lines
+      layer3: vertical lines
+      layer4: cursor
+    -->
     <canvas id="layer1" 
       style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
     <canvas id="layer2"
@@ -10,5 +16,6 @@
       style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
   </div>
   <script src="pdf.js"></script>
+  <script src="opencv.js"></script>
   <script src="index.js"></script>
 </body>

@@ -29,12 +29,28 @@ loadingTask.promise.then(function(pdf) {
     renderingTask.promise.then(function() {
         initializeCanvases(); 
         const cursor = createCursor();
+
         const lines = getHorizontalLines();
         console.log(lines);
         drawLines(lines);
+
+        lines_index = -1;
+        document.addEventListener("keydown", () => {
+            cursor.clear();
+            lines_index++;
+            cursor.x = lines[lines_index][0] % canvas.width;
+            cursor.y = Math.floor(lines[lines_index][0] / canvas.width);
+            cursor.update();
+        });
+
+        const verticalLines = getVerticalLines();
+        console.log(verticalLines);
+        drawLines(verticalLines,0,false,'layer3');
     });
   });
 });
+
+
 
 function initializeCanvases() {
     for (let i=2; i<=4; i++) {
@@ -94,20 +110,59 @@ function getHorizontalLines() {
     return lines;
 }
 
-function drawLines(lines) {
-    const canvas = document.getElementById('layer3');
+function getVerticalLines() {
+    const canvas = document.getElementById('layer1');
     const context = canvas.getContext('2d', {willReadFrequently: true});
 
-    const imgData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const w = canvas.width;
+    const h = canvas.height;
+
+    const imgData = context.getImageData(0, 0, w, h);
+    const data = imgData.data;
+    const lines = [];
+
+    let line = [];
+    for (let i = 0; 4*i < data.length; i++) {
+        if ((data[4*i] !== 255) || 
+        (data[4*(i + w)] !== 255) || 
+        (data[4*(i + 2*w)] !== 255)) {
+            line.push(i);
+        } else {
+            if (line.length) {
+                lines.push(line);
+                line = [];
+            }
+        }
+    }
+
+    return lines;
+}
+
+function drawLines(lines, minLength=100, horizontal=true, layer='layer2') {
+    const canvas = document.getElementById(layer);
+    const context = canvas.getContext('2d', {willReadFrequently: true});
+
+    const w = canvas.width;
+    const h = canvas.height;
+
+    const imgData = context.getImageData(0, 0, w, h);
     const data = imgData.data;
 
     for (line of lines) {
-        if (line.length >= 100) {
+        if (line.length >= minLength) {
             for (i of line) {
-                data[4*i] = 0;
-                data[4*i+1] = 255;
-                data[4*i+2] = 0;
-                data[4*i+3] = 127;
+                if (horizontal) {
+                    data[4*i] = 0;
+                    data[4*i+1] = 255;
+                    data[4*i+2] = 0;
+                    data[4*i+3] = 127;
+                } else {
+                    data[4*i] = 0;
+                    data[4*(i + w)] = 0;
+                    data[4*(i + 2*w)] = 255;
+                    data[4*(i + 3*w)] = 127;
+                }
+
             }
         }
     }
