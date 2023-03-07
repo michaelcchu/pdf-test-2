@@ -45,7 +45,7 @@ loadingTask.promise.then(function(pdf) {
 
         const verticalLines = getVerticalLines();
         console.log(verticalLines);
-        drawLines(verticalLines,0,false,'layer3');
+        drawLines(verticalLines,30,false,'layer3');
     });
   });
 });
@@ -123,10 +123,11 @@ function getVerticalLines() {
 
     let line = [];
     for (let i = 0; 4*i < data.length; i++) {
-        if ((data[4*i] !== 255) || 
-        (data[4*(i + w)] !== 255) || 
-        (data[4*(i + 2*w)] !== 255)) {
-            line.push(i);
+        const j = Math.floor(i / h) + (i % h) * w
+        if ((data[4*j] !== 255) || 
+        (data[4*j+1] !== 255) || 
+        (data[4*j+2] !== 255)) {
+            line.push(j);
         } else {
             if (line.length) {
                 lines.push(line);
@@ -157,10 +158,10 @@ function drawLines(lines, minLength=100, horizontal=true, layer='layer2') {
                     data[4*i+2] = 0;
                     data[4*i+3] = 127;
                 } else {
-                    data[4*i] = 0;
-                    data[4*(i + w)] = 0;
-                    data[4*(i + 2*w)] = 255;
-                    data[4*(i + 3*w)] = 127;
+                    data[4*i] = 255;
+                    data[4*i+1] = 0;
+                    data[4*i+2] = 0;
+                    data[4*i+3] = 127;
                 }
 
             }
