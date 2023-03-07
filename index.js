@@ -45,7 +45,7 @@ loadingTask.promise.then(function(pdf) {
 
         const verticalLines = getVerticalLines();
         console.log(verticalLines);
-        drawLines(verticalLines,30,false,'layer3');
+        drawLines(verticalLines,5,false,'layer3');
     });
   });
 });
@@ -61,7 +61,7 @@ function initializeCanvases() {
 }
 
 function createCursor() {
-    const canvas = document.getElementById('layer2');
+    const canvas = document.getElementById('layer4');
     const context = canvas.getContext('2d');
     context.globalAlpha = 0.5;
     
@@ -158,9 +158,9 @@ function drawLines(lines, minLength=100, horizontal=true, layer='layer2') {
                     data[4*i+2] = 0;
                     data[4*i+3] = 127;
                 } else {
-                    data[4*i] = 255;
+                    data[4*i] = 0;
                     data[4*i+1] = 0;
-                    data[4*i+2] = 0;
+                    data[4*i+2] = 255;
                     data[4*i+3] = 127;
                 }
 

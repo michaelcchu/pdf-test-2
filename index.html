@@ -1,3 +1,6 @@
+<head>
+  <link href="styles.css" rel="stylesheet">
+</head>
 <body>
   <div style="position: relative;">
     <!-- 
@@ -6,16 +9,21 @@
       layer3: vertical lines
       layer4: cursor
     -->
-    <canvas id="layer1" 
-      style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
-    <canvas id="layer2"
-      style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
-    <canvas id="layer3"
-      style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
-    <canvas id="layer4"
-      style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
+    <form>
+      <input type="checkbox" name="c1" onclick="showMe(1)" checked>1
+      <input type="checkbox" name="c1" onclick="showMe(2)" checked>2
+      <input type="checkbox" name="c1" onclick="showMe(3)" checked>3
+      <input type="checkbox" name="c1" onclick="showMe(4)" checked>4      
+    </form>
+    <div class="wrapper">
+      <canvas id="layer1" style="z-index: 0;"></canvas>
+      <canvas id="layer2" style="z-index: 1;"></canvas>
+      <canvas id="layer3" style="z-index: 2;"></canvas>
+      <canvas id="layer4" style="z-index: 3;"></canvas>
+    </div>
   </div>
   <script src="pdf.js"></script>
   <script src="opencv.js"></script>
   <script src="index.js"></script>
+  <script src="toggle.js"></script>
 </body>
